@@ -1,5 +1,6 @@
 {
     "name": "client",
+    "requiresSystem": "client",
 
     "host": "localhost",
     "port": 5000

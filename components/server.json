@@ -1,5 +1,6 @@
 {
     "name": "server",
+    "requiresSystem": "server",
 
     "host": "localhost",
     "port": 5000

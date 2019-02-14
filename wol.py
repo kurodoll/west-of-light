@@ -11,8 +11,9 @@ if __name__ == '__main__':
 
     else:
         client = c.newEntity([
-            c.newComponent('client')
+            c.newComponent('client'),
+            c.newComponent('gameWindow')
         ])
 
-    while True:
+    while c.running:
         c.tick()

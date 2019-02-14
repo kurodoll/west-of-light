@@ -43,7 +43,7 @@ class ServerSystem(System):
     def update(self, component):
         if 'game_server' not in component:
             component['game_server'] = GameServer(
-                localaddr=(component['host'], int(component['port']))
+                localaddr=(component['host'], component['port'])
             )
 
         component['game_server'].Tick()

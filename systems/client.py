@@ -30,7 +30,7 @@ class ClientSystem(System):
         if 'client' not in component:
             component['client'] = Client(
                 component['host'],
-                int(component['port'])
+                component['port']
             )
 
         component['client'].Tick()

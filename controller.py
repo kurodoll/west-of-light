@@ -3,16 +3,16 @@ import json
 from entity import Entity
 from systems import server
 from systems import client
+from systems import gameWindow
 
 
 class Controller:
     def __init__(self):
         self.entities = []
         self.components = {}
-
         self.systems = {}
-        self.systems['server'] = server.ServerSystem()
-        self.systems['client'] = client.ClientSystem()
+
+        self.running = True
 
     def newEntity(self, component_list):
         new_entity = Entity(component_list)
@@ -27,10 +27,25 @@ class Controller:
             self.components[variant] = []
 
         self.components[variant].append(component_data)
+
+        if component_data['requiresSystem'] not in self.systems:
+            self.initSystem(component_data['requiresSystem'])
+
         return component_data
+
+    def initSystem(self, system):
+        if system == 'server':
+            self.systems['server'] = server.ServerSystem()
+        elif system == 'client':
+            self.systems['client'] = client.ClientSystem()
+        elif system == 'gameWindow':
+            self.systems['gameWindow'] = gameWindow.GameWindowSystem()
 
     def tick(self):
         for s in self.systems:
             if s in self.components:
                 for c in self.components[s]:
-                    self.systems[s].update(c)
+                    ret = self.systems[s].update(c)
+
+                    if ret == 'exit':
+                        self.running = False
