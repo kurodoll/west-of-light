@@ -1,9 +1,7 @@
 import json
 
 from entity import Entity
-from systems import server
-from systems import client
-from systems import gameWindow
+from systems import server, client, gameWindow  # noqa: F401
 
 
 class Controller:
@@ -34,12 +32,8 @@ class Controller:
         return component_data
 
     def initSystem(self, system):
-        if system == 'server':
-            self.systems['server'] = server.ServerSystem()
-        elif system == 'client':
-            self.systems['client'] = client.ClientSystem()
-        elif system == 'gameWindow':
-            self.systems['gameWindow'] = gameWindow.GameWindowSystem()
+        target_object = system + '.' + system[0].capitalize() + system[1:] + 'System()'  # noqa: E501
+        self.systems[system] = eval(target_object)
 
     def tick(self):
         for s in self.systems:
